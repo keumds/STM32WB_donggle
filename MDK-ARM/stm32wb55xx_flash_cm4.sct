@@ -1,0 +1,30 @@
+; *************************************************************
+; *** ANVIX P1 BLE USB Dongle - STM32WB55 ***
+; *** Scatter-Loading Description File ***
+; *************************************************************
+
+LR_IROM1 0x08000000 0x00080000  {
+
+  ER_IROM1 0x08000000 0x00080000  {
+    *.o (RESET, +First)
+    *(InRoot$$Sections)
+    .ANY (+RO)
+  }
+
+  ; Main RAM - 16-byte aligned
+  RW_IRAM1 0x20000010 0x0002FFF0  {
+    .ANY (+RW +ZI)
+  }
+
+  ; BLE Shared Memory - Mapping Table
+  RW_RAM_SHARED1 0x20030000 0x00000028  {
+    *(MAPPING_TABLE)
+  }
+
+  ; BLE Shared Memory - Mailbox
+  RW_RAM_SHARED2 0x20030028 0x000027D8  {
+    *(MB_MEM1)
+    *(MB_MEM2)
+    .ANY (+RW +ZI)
+  }
+}
